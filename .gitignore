@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+simple-flask-community/.DS_Store
+simple-flask-community/static/.DS_Store
+simple-flask-community/templates/.DS_Store
