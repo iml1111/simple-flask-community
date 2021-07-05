@@ -1,6 +1,8 @@
 from flask import Flask
 from api.index import bp as index_bp
 from api.board import bp as board_bp
+from model import initialize_db
+
 
 # 플라스크 앱 객체 할당
 application = Flask(__name__)
@@ -14,6 +16,7 @@ application.config.update(
 application.register_blueprint(index_bp)
 application.register_blueprint(board_bp)
 
+initialize_db()
 
 if __name__ == '__main__':
     application.run(debug=True)
