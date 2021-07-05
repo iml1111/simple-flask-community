@@ -2,6 +2,7 @@
 DB 접근을 총괄하는 클래스
 """
 import sqlite3
+from datetime import datetime
 
 DB_PATH = "./data.db"
 
@@ -16,16 +17,26 @@ class Database:
 		cur = self.conn.cursor()
 		cur.execute(
 			'''
-				SELECT * FROM post
-				ORDER BY updated_at DESC
-				LIMIT ?, 5
+			SELECT * FROM post
+			ORDER BY updated_at DESC
+			LIMIT ?, ?
 			''', 
-			((page - 1) * 5,)
+			((page - 1) * 10, 10)
 		)
 		return cur.fetchall()
 
 	def insert_post(self, name, title, content):
-		pass
+		"""포스트 등록"""
+		cur = self.conn.cursor()
+		now_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+		cur.execute(
+			"""
+			INSERT INTO post (name, title, content, updated_at) 
+			VALUES (?, ?, ?, ?)
+			""",
+			(name, title, content, now_date)
+		)
+		self.conn.commit()
 
 	def __del__(self):
 		"""객체가 소멸할 때, 실행"""
@@ -46,12 +57,8 @@ def initialize_db():
 			updated_at TEXT
 		)
 	''')
-	cur.execute(
-		"INSERT INTO post (name, title, content, updated_at) VALUES ('BUY','RHAT','RHAT', 'RHAT')")
-	cur.execute(
-		"INSERT INTO post (name, title, content, updated_at) VALUES ('BUY','RHAT','RHAT', 'RHAT')")
-	cur.execute(
-		"INSERT INTO post (name, title, content, updated_at) VALUES ('BUY','RHAT','RHAT', 'RHAT')")
+	# cur.execute(
+	# 	"INSERT INTO post (name, title, content, updated_at) VALUES ('BUY','RHAT','RHAT', 'RHAT')")
 	conn.close()
 
 

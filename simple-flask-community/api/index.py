@@ -7,6 +7,5 @@ bp = Blueprint('index', __name__)
 @bp.route("/")
 def index_page():
 	db = Database()
-	data = db.get_posts(1)
-	print(data)
-	return render_template('index.html')
+	posts = db.get_posts(1)[:3]
+	return render_template('index.html', posts=posts)
